@@ -25,6 +25,13 @@ const typography = StyleSheet.create((theme) => ({
 			fontSize: 16,
 		};
 	},
+	test: (isSelected: boolean = false) => {
+		console.log("test", isSelected);
+
+		return {
+			color: isSelected ? theme.colors.green : theme.colors.red,
+		};
+	},
 }));
 
 function Typography({
@@ -43,6 +50,7 @@ function First() {
 			<View>
 				<Typography>Test</Typography>
 				<Typography color="green">Test</Typography>
+				<Text style={typography.test()}>Test</Text>
 			</View>
 			<StyledRectButton
 				style={styles.button}
