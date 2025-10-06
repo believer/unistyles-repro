@@ -1,0 +1,38 @@
+import { StyleSheet } from "react-native-unistyles";
+
+const lightTheme = {
+	colors: {
+		primary: "#ff1ff4",
+		secondary: "#fff",
+		red: "red",
+		green: "green",
+	},
+};
+
+const darkTheme = {
+	colors: {
+		primary: "#aa12ff",
+		secondary: "#000",
+		red: "blue",
+		green: "rebeccapurple",
+	},
+};
+
+const appThemes = {
+	light: lightTheme,
+	dark: darkTheme,
+};
+
+type AppThemes = typeof appThemes;
+export type AppTheme = (typeof appThemes)[keyof typeof appThemes];
+
+declare module "react-native-unistyles" {
+	export interface UnistylesThemes extends AppThemes {}
+}
+
+StyleSheet.configure({
+	themes: appThemes,
+	settings: {
+		initialTheme: "light",
+	},
+});
