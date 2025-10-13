@@ -1,69 +1,43 @@
-import type React from "react";
-import { Text, View } from "react-native";
-import {
-	GestureHandlerRootView,
-	RectButton,
-} from "react-native-gesture-handler";
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-	StyleSheet,
-	UnistylesRuntime,
-	withUnistyles,
-} from "react-native-unistyles";
+import { StyleSheet, UnistylesRuntime } from "react-native-unistyles";
 import "./theme";
-import type { AppTheme } from "./theme";
-
-const StyledRectButton = withUnistyles(RectButton);
-type Color = keyof AppTheme["colors"];
-
-const typography = StyleSheet.create((theme) => ({
-	text: (color: Color = "red") => {
-		console.log("style", color);
-
-		return {
-			color: theme.colors[color],
-			fontSize: 16,
-		};
-	},
-	test: (isSelected: boolean = false) => {
-		console.log("test", isSelected);
-
-		return {
-			color: isSelected ? theme.colors.green : theme.colors.red,
-		};
-	},
-}));
-
-function Typography({
-	children,
-	color,
-}: {
-	children: React.ReactNode;
-	color?: Color;
-}) {
-	return <Text style={typography.text(color)}>{children}</Text>;
-}
+import Animated from "react-native-reanimated";
 
 function First() {
+	const [checked, setChecked] = React.useState(false);
+
 	return (
-		<View style={{ rowGap: 24 }}>
-			<View>
-				<Typography>Test</Typography>
-				<Typography color="green">Test</Typography>
-				<Text style={typography.test()}>Test</Text>
+		<View style={styles.container}>
+			<View style={{ rowGap: 24 }}>
+				<Animated.View
+					style={[
+						styles.checkbox(checked),
+						{
+							transitionProperty: ["backgroundColor"],
+							transitionDuration: 1000,
+						},
+					]}
+				/>
+				<Animated.View style={styles.checkbox(checked)} />
 			</View>
-			<StyledRectButton
-				style={styles.button}
-				onPress={() => {
-					UnistylesRuntime.setTheme(
-						UnistylesRuntime.themeName === "light" ? "dark" : "light",
-					);
-				}}
-			>
-				<View accessible role="button">
-					<Text>Click</Text>
-				</View>
-			</StyledRectButton>
+			<View style={{ flexDirection: "row", columnGap: 8 }}>
+				<Pressable style={styles.button} onPress={() => setChecked(!checked)}>
+					<Text>Check box</Text>
+				</Pressable>
+				<Pressable
+					style={styles.button}
+					onPress={() => {
+						UnistylesRuntime.setTheme(
+							UnistylesRuntime.themeName === "light" ? "dark" : "light",
+						);
+					}}
+				>
+					<Text>Change theme</Text>
+				</Pressable>
+			</View>
 		</View>
 	);
 }
@@ -71,9 +45,7 @@ function First() {
 function App() {
 	return (
 		<SafeAreaProvider>
-			<GestureHandlerRootView
-				style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-			>
+			<GestureHandlerRootView style={{ flex: 1 }}>
 				<First />
 			</GestureHandlerRootView>
 		</SafeAreaProvider>
@@ -81,6 +53,17 @@ function App() {
 }
 
 const styles = StyleSheet.create((theme) => ({
+	checkbox: (checked: boolean) => {
+		console.log({
+			checked,
+			color: checked ? theme.colors.green : theme.colors.red,
+		});
+		return {
+			backgroundColor: checked ? theme.colors.green : theme.colors.red,
+			width: 40,
+			height: 40,
+		};
+	},
 	container: {
 		flex: 1,
 		alignItems: "center",
