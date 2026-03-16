@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native-unistyles";
 
 const lightTheme = {
 	colors: {
-		primary: "#ff1ff4",
+		bg: "#fff",
+		primary: "yellow",
 		secondary: "#fff",
 		red: "darkred",
 		green: "green",
@@ -11,7 +12,8 @@ const lightTheme = {
 
 const darkTheme = {
 	colors: {
-		primary: "#aa12ff",
+		bg: "#000",
+		primary: "blue",
 		secondary: "#000",
 		red: "red",
 		green: "lightgreen",
